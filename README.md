@@ -1,74 +1,89 @@
-# WiDS-5.0-LSTM-MidTerm-Report
-1. Foundations of Python
-My journey began with mastering Python, which serves as the backbone of this project. Unlike other languages, Python's syntax allowed me to focus on logic rather than fighting with complex boilerplate code.
+#ENDTERM REPORT
 
+Stock Forecasting using LSTM
+Things I have learned :-
 
-Data Types and Structures: I practiced handling dynamic typing, working with integers, floats, and strings. I spent a lot of time on data structures like lists for storing sequences, dictionaries for key-value mapping, and tuples for immutable data.
-+4
+1. Programming Foundations
+The initial phase involved establishing a robust environment using Python, chosen for its high readability and extensive library support.
 
+Data Architecture
+The system utilizes diverse data types and structures to manage complex market information:
 
-Logic and Control: I implemented loops to handle repetitive data tasks and conditional statements to manage decision-making within the code.
-+1
+Numerical Handling: Integers and Floats are used to represent trade volumes and asset prices.
 
+Asset Identification: Strings store ticker symbols for various financial instruments.
 
-Advanced Concepts: Understanding functions and classes was essential, especially since PyTorch requires an object-oriented approach to build neural network layers.
+Conditional Logic: Booleans manage logical checkpoints throughout the training process.
 
-2. The Data Science Library Stack
-To process and visualize financial data, I utilized the standard Python ecosystem:
+Storage Frameworks: Mutable Lists track sequential price history, while Dictionaries manage hyperparameter configurations.
 
-NumPy: This was my primary tool for numerical operations. I used it for creating arrays and performing multi-dimensional slicing to isolate specific price windows.
-+1
+Logic & Modularity
+Flow Control: Integrated For loops for dataset iteration and While loops to manage training epochs.
 
+Clean Code: Custom functions ensure modularity and code reusability.
 
-Pandas: I used Pandas for all data cleaning tasks, including reading CSV and JSON files, and using the locate function to filter through specific dates in the stock history.
-+1
+Object-Oriented Design: Developed custom classes inheriting from PyTorch modules to build scalable neural architectures.
 
+2. Core Technical Stack
+The project relies on a suite of open-source frameworks optimized for machine learning:
 
-Matplotlib: I focused on plotting price trends, creating subplots for multiple indicators, and using histograms and pie charts to understand data distribution.
-+2
+NumPy: Utilized for high-performance numerical operations and multi-dimensional array manipulation, particularly for creating lookback windows.
 
+Pandas: Acts as the primary tool for data structuring, managing OHLC (Open, High, Low, Close) data in 2D DataFrames and utilizing indexing for time-based filtering.
 
-Sklearn: I used this library to implement baseline linear regression models to compare against my later deep learning results.
+Matplotlib: Facilitates data visualization, allowing for the comparison of predicted trends against actual historical market behavior.
 
-3. Introduction to the Stock Market
-Using resources from Zerodha Varsity, I developed a fundamental understanding of how markets operate. I learned that the market is a reflection of human psychology and economic value, where indices like the NIFTY 50 track the health of the top companies. This domain knowledge is critical because it helps in understanding why certain features (like volume or opening price) are chosen for the model.
+Scikit-Learn: Employed for critical preprocessing, specifically MinMaxScaling, to normalize stock prices into a 0–1 range to accelerate model convergence.
 
-4. Machine Learning Fundamentals
-I broke down my learning into Supervised, Unsupervised, and Reinforcement learning.
-+2
+3. Financial Theory & Market Analysis
+To refine the model's inputs, several concepts from financial literature were integrated:
 
-Regressions: I implemented both linear and logistic regression. I learned that while linear regression predicts a continuous price, logistic regression helps in binary classification, such as predicting if a price will go up or down.
-+1
+Market Mechanics: The project operates on the principle of price discovery driven by the interplay of supply and demand.
 
+Volatility Management: Identifying market "noise" was essential to distinguish between random fluctuations and meaningful trends.
 
-The Overfitting Issue: I studied how models can sometimes memorize noise in training data instead of learning actual trends. I learned to mitigate this by using train-test splits and regularization techniques.
-+4
+Technical Indicators: Beyond raw price, the model incorporates Relative Strength Index (RSI) and Moving Averages (SMA/EMA) as input features to provide the network with momentum-based context.
 
-5. Technical Analysis
-Again using Zerodha Varsity, I looked into how traders use historical data to find patterns. I focused on candlestick charts, support and resistance levels, and technical indicators. This phase helped me realize that stock prices are not purely random but often follow seasonal or psychological trends that a neural network can potentially pick up.
+4. Machine Learning & Data Pipeline
+The problem is framed as a Supervised Learning task using regression to estimate continuous price values.
 
-6. Data Acquisition with YFinance
-To get real-world data, I used the YFinance library. This allowed me to automate the process of fetching historical stock data, including daily opening, closing, and high/low prices. This was the first step in creating my own custom dataset for the LSTM model.
+Data Acquisition
+Rather than using static files, the pipeline utilizes the yfinance library to pull real-time historical data. This allows the model to be tested across various tickers (e.g., AAPL, GOOGL, TSLA) without modifying the underlying code.
 
-7. Neural Networks and How They Learn
-I explored the architecture of neural networks, moving from a single neuron to multiple hidden layers. I learned that a network is essentially a series of mathematical weights and biases that get adjusted as the model sees more data.
-+2
+Overfitting Mitigation
+To prevent the model from memorizing noise (overfitting), the architecture was simplified, and a strict separation between Training and Testing datasets was maintained.
 
-8. Optimization: Gradient Descent and Backpropagation
-I studied how a model actually improves over time.
+5. Neural Architecture: LSTM
+Standard Recurrent Neural Networks (RNNs) often fail to track long-term trends due to the vanishing gradient problem. This model implements LSTM cells to overcome this.
 
+The Gating Mechanism
+The LSTM maintains a "cell state" that selectively updates information through three gates:
 
-Gradient Descent: This is the optimization algorithm used to minimize the model's error by finding the local minimum of the loss function.
+Forget Gate: Discards historical data that is no longer relevant to current trends.
 
+Input Gate: Identifies and stores significant new information from the current time step.
 
-Backpropagation: I used the example of logistic regression to understand how errors are calculated at the output and sent backward to update each weight in the network.
+Output Gate: Determines what portion of the internal state should influence the next hidden state.
 
-9. Implementation with PyTorch
-PyTorch is the core framework I am using for the final LSTM model.
+6. Implementation with PyTorch
+PyTorch was selected for its dynamic computation graph and efficient GPU utilization:
 
-Tensors and Autograd: I moved from NumPy arrays to Tensors for computation and utilized Autograd for automatic differentiation during training.
+Tensors: The core data structure used for all mathematical operations.
 
-Data Handling: I implemented datasets and dataloaders to feed data into the model in batches, which is more memory-efficient.
+Autograd: Automatically computes gradients, streamlining the Gradient Descent process to minimize loss.
 
+DataLoader: Custom classes batch time-series data efficiently to maximize hardware performance.
 
-Modeling: I practiced building basic linear and logistic models in PyTorch, using activation functions like ReLU and Sigmoid, and learning how to save and load these models for future use
+7. Performance & Findings
+Evaluation was conducted on a five-year historical window with a six-month hold-out test set:
+
+Optimization: The Mean Squared Error (MSE) showed consistent reduction over 100 epochs, indicating effective learning.
+
+Trend Tracking: The model demonstrated a high proficiency in identifying the general direction of market movement.
+
+Latency: A minor prediction "lag" was observed during extreme volatility, which is a known characteristic of models relying on historical lag features.
+
+Acknowledgement
+I would like to express my gratitude to my mentors, Varad and Dan, whose technical guidance and constant support were instrumental in the successful completion of this project.
+
+Would you like me to generate a specific requirements.txt file for your repo to help others run your code?
