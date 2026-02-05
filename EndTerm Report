@@ -1,0 +1,101 @@
+# Stock Price Prediction Using LSTM
+
+**Project Status:** Completed  
+**Domain:** Deep Learning / Finance  
+**Framework:** PyTorch
+
+---
+
+## 📖 Table of Contents
+1. [Introduction](#introduction)
+2. [Python Basics](#1-python-basics)
+3. [Libraries Used](#2-python-libraries)
+4. [Stock Market Theory](#3-introduction-to-stock-market)
+5. [Machine Learning Concepts](#4-machine-learning)
+6. [Technical Analysis](#5-technical-analysis)
+7. [Data Acquisition](#6-yfinance-library)
+8. [Neural Networks & Logic](#7-neural-networks)
+9. [Optimization & Math](#8-gradient-descent-and-backpropagation)
+10. [PyTorch Implementation](#9-pytorch-framework)
+11. [The LSTM Model](#10-lstm-long-short-term-memory)
+12. [Conclusion](#11-conclusion-and-overall-learnings)
+
+---
+
+## Introduction
+Transitioning to Python for this project was a significant milestone in my programming journey. Unlike other languages I have used in the past, which often require verbose syntax, Python felt incredibly streamlined and readable. It allowed me to focus more on the logic of the algorithms rather than getting bogged down by syntax errors. This repository documents my journey in building a Deep Learning model to forecast stock prices.
+
+---
+
+## 1. Python Basics
+Mastering the foundation was the first step.
+
+### Data Types & Structures
+* **Dynamic Typing:** Python infers types automatically, speeding up development.
+* **Lists & Dictionaries:** utilized Lists for sequences of price data and Dictionaries for managing hyperparameters (e.g., `{'lr': 0.001, 'epochs': 100}`).
+* **Booleans:** Used for creating logic gates and masks during data filtering.
+
+### OOP (Object-Oriented Programming)
+Understanding OOP was the bridge to PyTorch.
+* **Inheritance:** Crucial for building the model. My custom LSTM class inherits from `torch.nn.Module`, acquiring all standard PyTorch functionalities.
+* **`__init__` & `self`:** Used to define the initial state of the model and manage instance variables.
+
+---
+
+## 2. Python Libraries
+I leveraged the "Data Science Stack" to handle data processing.
+
+### NumPy
+The backbone of numerical computing.
+* **Vectorization:** Replaced slow loops with array operations.
+* **Broadcasting:** Simplified arithmetic operations on arrays of different shapes.
+
+### Pandas
+Used for structured data manipulation.
+* **DataFrames:** structured OHLC data into columns.
+* **Time-Series:** Handled DateTime indexing to slice data by specific market events (e.g., COVID-19 crash).
+
+### Matplotlib
+Visualization was key for validation.
+* **Subplots:** Stacked Price vs. Volume charts to find correlations.
+* **Histograms:** Analyzed the distribution of daily returns.
+
+### Scikit-Learn
+* **Preprocessing:** Used `MinMaxScaler` to normalize stock prices between 0 and 1, ensuring stable training.
+
+---
+
+## 3. Introduction to Stock Market
+Before coding, I studied domain theory via **Zerodha Varsity**.
+
+* **Price Discovery:** Understood that price is a function of Supply vs. Demand.
+* **Indices:** Studied Nifty 50 to understand "Market Sentiment" and how macro-events affect individual stocks.
+* **Volatility:** Learned that high volatility introduces "noise," making prediction harder.
+
+---
+
+## 4. Machine Learning
+I explored the broader ML landscape to place my project in context.
+
+* **Supervised Learning:** Framed the project as Input (Past 60 Days) $\rightarrow$ Label (Next Day Price).
+* **The Overfitting Issue:** Encountered the problem where the model memorized training data but failed on test data.
+* **Solution:** implemented **Dropout** and strictly separated Training/Testing datasets.
+
+---
+
+## 5. Technical Analysis
+"History repeats itself." I used this principle for Feature Engineering.
+
+* **Candlesticks:** Used OHLC data to capture intraday sentiment (Bullish/Bearish).
+* **Indicators:**
+    * **EMA (Exponential Moving Average):** Smoothed out noise to reveal trends.
+    * **RSI (Relative Strength Index):** Added as an input feature to help the model detect "Overbought" or "Oversold" conditions.
+
+---
+
+## 6. YFinance Library
+Automated data fetching replaced manual CSV downloads.
+
+```python
+import yfinance as yf
+data = yf.download('AAPL', start='2015-01-01')
